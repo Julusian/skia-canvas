@@ -23,7 +23,7 @@ jobs:
         echo "$HOME/.cargo/bin" >> $GITHUB_PATH
 
     - name: Checkout skia-canvas
-      uses: actions/checkout@v2
+      uses: actions/checkout@v3
       with:
         path: skia-canvas
 
@@ -81,7 +81,7 @@ jobs:
         git clone --depth 1 --branch ${GITHUB_REF_NAME} ${SERVER}/${REPO} skia-canvas
         export TAG=$(make -sC skia-canvas skia-version)
         make -sC skia-canvas with-local-skia
-        echo "::set-output name=VERSION::$TAG"
+        echo "VERSION=${TAG}" >> $GITHUB_OUTPUT
 
     - name: Checkout rust-skia
       run: |
@@ -140,7 +140,7 @@ jobs:
         node-version: 14
 
     - name: Checkout repository
-      uses: actions/checkout@v2
+      uses: actions/checkout@v3
       with:
         path: skia-canvas
 
@@ -148,10 +148,10 @@ jobs:
       id: rust-skia
       run: |
         export TAG=$(make -sC skia-canvas skia-version)
-        echo "::set-output name=VERSION::$TAG"
+        echo "VERSION=${TAG}" >> $GITHUB_OUTPUT
 
     - name: Checkout rust-skia
-      uses: actions/checkout@v2
+      uses: actions/checkout@v3
       with:
         repository: rust-skia/rust-skia
         ref: ${{ steps.rust-skia.outputs.VERSION }}
@@ -191,7 +191,7 @@ jobs:
 
     steps:
     - name: Checkout repository
-      uses: actions/checkout@v2
+      uses: actions/checkout@v3
 
     - name: Use Node.js
       uses: actions/setup-node@v2
@@ -227,7 +227,7 @@ jobs:
 
     steps:
     - name: Checkout repository
-      uses: actions/checkout@v2
+      uses: actions/checkout@v3
 
     - name: Use Node.js
       uses: actions/setup-node@v2
@@ -268,7 +268,7 @@ jobs:
 
     steps:
     - name: Checkout repository
-      uses: actions/checkout@v2
+      uses: actions/checkout@v3
 
     - name: Use Node.js
       uses: actions/setup-node@v2
