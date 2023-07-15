@@ -135,7 +135,7 @@ jobs:
         shell: bash
         run: |
           # yarn build --arch=${{ matrix.arch }}
-          yarn pkg-prebuilds-copy --baseDir build/Release --source $BINDING_NAME.node --name=$BINDING_NAME --strip  --napi_version=$NAPI_VERSION --arch=${{ matrix.arch }}
+          yarn package
 
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v2
@@ -170,13 +170,13 @@ jobs:
 
             yarn test
 
-            yarn pkg-prebuilds-copy --baseDir build/Release --source $BINDING_NAME.node --name=$BINDING_NAME --strip --napi_version=$NAPI_VERSION --arch=${{ matrix.arch }} --libc=${{ matrix.libc }}
+            yarn package
 
       - name: Upload artifacts
         uses: actions/upload-artifact@v3
         with:
           name: ${{ runner.os }}-${{ matrix.arch }}-${{ matrix.libc }}-prebuilds
-          path: prebuilds
+          path: build/stage
           retention-days: 1
 
   bundle:

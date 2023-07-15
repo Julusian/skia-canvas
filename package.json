@@ -18,15 +18,16 @@
     "path": "path-browserify"
   },
   "scripts": {
-    "install": "pkg-prebuilds-verify ./binding-options.js || npm run build -- --release",
-    "build": "cargo-cp-artifact -nc build/Release/julusian-skia-canvas.node -- cargo build --message-format=json-render-diagnostics",
+    "install": "node-pre-gyp install",
+    "build": "cargo-cp-artifact -nc lib/v6/index.node -- cargo build --message-format=json-render-diagnostics",
+    "package": "node-pre-gyp package",
     "test": "jest"
   },
   "dependencies": {
+    "@mapbox/node-pre-gyp": "^1.0.9",
     "cargo-cp-artifact": "^0.1",
     "glob": "^8.0.3",
     "path-browserify": "^1.0.1",
-    "pkg-prebuilds": "^0.2.1",
     "simple-get": "^4.0.1",
     "string-split-by": "^1.0.0"
   },
@@ -43,6 +44,11 @@
     "lib"
   ],
   "binary": {
+    "module_name": "index",
+    "module_path": "./lib/v{napi_build_version}",
+    "package_name": "{platform}-{arch}-{node_napi_label}-{libc}.tar.gz",
+    "host": "https://github.com/Julusian/skia-canvas/releases/download/",
+    "remote_path": "{version}",
     "napi_versions": [
       6
     ]
