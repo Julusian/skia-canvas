@@ -18,24 +18,21 @@
     "path": "path-browserify"
   },
   "scripts": {
-    "build": "cargo-cp-artifact -nc lib/v6/index.node -- cargo build --message-format=json-render-diagnostics",
-    "install": "node-pre-gyp install || npm run build -- --release",
-    "package": "node-pre-gyp package",
-    "upload": "node-pre-gyp publish",
+    "install": "pkg-prebuilds-verify ./binding-options.js || npm run build -- --release",
+    "build": "cargo-cp-artifact -nc build/Release/julusian-skia-canvas.node -- cargo build --message-format=json-render-diagnostics",
     "test": "jest"
   },
   "dependencies": {
-    "@mapbox/node-pre-gyp": "^1.0.9",
     "cargo-cp-artifact": "^0.1",
     "glob": "^8.0.3",
     "path-browserify": "^1.0.1",
+    "pkg-prebuilds": "^0.2.1",
     "simple-get": "^4.0.1",
     "string-split-by": "^1.0.0"
   },
   "devDependencies": {
     "@types/jest": "^28.1.6",
     "@types/node": "^18.6.1",
-    "aws-sdk": "^2.1181.0",
     "express": "^4.18.1",
     "jest": "^28.1.3",
     "lodash": "^4.17.21",
@@ -46,11 +43,6 @@
     "lib"
   ],
   "binary": {
-    "module_name": "index",
-    "module_path": "./lib/v{napi_build_version}",
-    "remote_path": "./v{version}",
-    "package_name": "{platform}-{arch}-{node_napi_label}-{libc}.tar.gz",
-    "host": "https://skia-canvas.s3.us-east-1.amazonaws.com",
     "napi_versions": [
       6
     ]
