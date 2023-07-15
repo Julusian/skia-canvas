@@ -12,7 +12,7 @@ RUN apk update && apk add --update --no-cache \
     musl-dev openssl-dev fontconfig-dev fontconfig ttf-dejavu
 
 RUN apk add --update --no-cache --repository http://dl-cdn.alpinelinux.org/alpine/v3.18/community \
-    python2
+    python3
 
 RUN apk add --update --no-cache --repository http://dl-cdn.alpinelinux.org/alpine/edge/testing \
     gn ninja
