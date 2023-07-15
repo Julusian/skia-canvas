@@ -38,13 +38,11 @@ jobs:
         cd skia-canvas
         npm test && npm run package
 
-    - name: Upload to S3
-      env:
-        AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-        AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-      run: |
-        cd skia-canvas
-        npm run upload
+    - name: Upload artifacts
+      uses: actions/upload-artifact@v3
+      with:
+        name: linux-x86-prebuilds
+        path: skia-canvas/build/stage
 
 
   linux-arm64:
@@ -106,84 +104,82 @@ jobs:
         cd skia-canvas
         npm test && npm run package
 
-    - name: Upload to S3
-      env:
-        AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-        AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-      run: |
-        cd skia-canvas
-        npm run upload
-
-
-  linux-arm:
-    runs-on:
-      - self-hosted
-      - linux
-      - ARM
-    container:
-      image: ${{ format('ghcr.io/{0}-{1}:latest', github.repository, 'arm') }}
-
-    steps:
-    - name: Prepare workspace
-      run: |
-        rm -rf "$GITHUB_WORKSPACE"
-        mkdir -p "$GITHUB_WORKSPACE"
-
-    - name: Install rust
-      run: |
-        curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y --profile minimal
-        echo "$HOME/.cargo/bin" >> $GITHUB_PATH
-
-    - name: Use Node.js
-      uses: actions/setup-node@v2
+    - name: Upload artifacts
+      uses: actions/upload-artifact@v3
       with:
-        node-version: 14
+        name: linux-arm64-prebuilds
+        path: skia-canvas/build/stage
 
-    - name: Checkout repository
-      uses: actions/checkout@v3
-      with:
-        path: skia-canvas
 
-    - name: Determine current upstream version
-      id: rust-skia
-      run: |
-        export TAG=$(make -sC skia-canvas skia-version)
-        echo "VERSION=${TAG}" >> $GITHUB_OUTPUT
+  # linux-arm:
+  #   runs-on:
+  #     - self-hosted
+  #     - linux
+  #     - ARM
+  #   container:
+  #     image: ${{ format('ghcr.io/{0}-{1}:latest', github.repository, 'arm') }}
 
-    - name: Checkout rust-skia
-      uses: actions/checkout@v3
-      with:
-        repository: rust-skia/rust-skia
-        ref: ${{ steps.rust-skia.outputs.VERSION }}
-        submodules: true
-        path: rust-skia
+  #   steps:
+  #   - name: Prepare workspace
+  #     run: |
+  #       rm -rf "$GITHUB_WORKSPACE"
+  #       mkdir -p "$GITHUB_WORKSPACE"
 
-    - name: Patch sources
-      run: |
-        make -sC skia-canvas with-local-skia
+  #   - name: Install rust
+  #     run: |
+  #       curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y --profile minimal
+  #       echo "$HOME/.cargo/bin" >> $GITHUB_PATH
 
-    - name: Use system GN
-      run: |
-        echo "#!/bin/true" > rust-skia/skia-bindings/skia/bin/fetch-gn
+  #   - name: Use Node.js
+  #     uses: actions/setup-node@v2
+  #     with:
+  #       node-version: 14
 
-    - name: Build module
-      run: |
-        cd skia-canvas
-        yarn install --ignore-scripts
-        npm run build -- --release --features vulkan,window,skia-safe/embed-freetype
+  #   - name: Checkout repository
+  #     uses: actions/checkout@v3
+  #     with:
+  #       path: skia-canvas
 
-    - name: Package module
-      run: |
-        cd skia-canvas
-        npm test && npm run package
+  #   - name: Determine current upstream version
+  #     id: rust-skia
+  #     run: |
+  #       export TAG=$(make -sC skia-canvas skia-version)
+  #       echo "VERSION=${TAG}" >> $GITHUB_OUTPUT
 
-    - name: Upload to S3
-      env:
-        AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-        AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-      run: |
-        cd skia-canvas
-        npm run upload
+  #   - name: Checkout rust-skia
+  #     uses: actions/checkout@v3
+  #     with:
+  #       repository: rust-skia/rust-skia
+  #       ref: ${{ steps.rust-skia.outputs.VERSION }}
+  #       submodules: true
+  #       path: rust-skia
+
+  #   - name: Patch sources
+  #     run: |
+  #       make -sC skia-canvas with-local-skia
+
+  #   - name: Use system GN
+  #     run: |
+  #       echo "#!/bin/true" > rust-skia/skia-bindings/skia/bin/fetch-gn
+
+  #   - name: Build module
+  #     run: |
+  #       cd skia-canvas
+  #       yarn install --ignore-scripts
+  #       npm run build -- --release --features vulkan,window,skia-safe/embed-freetype
+
+  #   - name: Package module
+  #     run: |
+  #       cd skia-canvas
+  #       npm test && npm run package
+
+  #   - name: Upload to S3
+  #     env:
+  #       AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+  #       AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+  #     run: |
+  #       cd skia-canvas
+  #       npm run upload
 
 
   mac-x86:
@@ -214,12 +210,11 @@ jobs:
       run: |
         npm test && npm run package
 
-    - name: Upload to S3
-      env:
-        AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-        AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-      run: |
-        npm run upload
+    - name: Upload artifacts
+      uses: actions/upload-artifact@v3
+      with:
+        name: max-x64-prebuilds
+        path: skia-canvas/build/stage
 
 
   mac-arm64:
@@ -255,12 +250,11 @@ jobs:
         sed -i.bak 's/"package_name":.*/"package_name": "{platform}-arm64-{node_napi_label}-{libc}.tar.gz",/' package.json
         npm run package
 
-    - name: Upload to S3
-      env:
-        AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-        AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-      run: |
-        npm run upload
+    - name: Upload artifacts
+      uses: actions/upload-artifact@v3
+      with:
+        name: mac-arm64-prebuilds
+        path: skia-canvas/build/stage
 
 
   windows-x86:
@@ -289,9 +283,8 @@ jobs:
       run: |
         npm test && npm run package
 
-    - name: Upload to S3
-      env:
-        AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-        AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-      run: |
-        npm run upload
+    - name: Upload artifacts
+      uses: actions/upload-artifact@v3
+      with:
+        name: windows-x86-prebuilds
+        path: skia-canvas/build/stage
