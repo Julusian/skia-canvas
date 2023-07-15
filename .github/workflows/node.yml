@@ -148,7 +148,11 @@ jobs:
           # shell: bash
           options: --platform=${{ matrix.docker-arch }} -v ${{ github.workspace }}:/work -e CI=1 -e npm_config_build_from_source=1 -e NAPI_VERSION -e BINDING_NAME
           run: |
-            if command -v apk &> /dev/null
+            if command -v apt-get &> /dev/null
+            then
+              apt update
+              apt install -y ninja
+            elif command -v apk &> /dev/null
             then
               apk update
               apk add curl
