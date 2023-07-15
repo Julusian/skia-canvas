@@ -165,6 +165,11 @@ jobs:
 
             cd /work
 
+            # use a different binary url for arm64
+            if [ "${{ matrix.arch }}" != "x64" ]; then
+              export SKIA_BINARIES_URL="https://builds.julusian.dev/skia-canvas/{tag}/skia-binaries-{key}.tar.gz"
+            fi
+
             yarn install --ignore-scripts
             yarn build --release --features "vulkan,window,skia-safe/embed-freetype"
 
