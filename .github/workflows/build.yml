@@ -30,7 +30,7 @@ jobs:
     - name: Build module
       run: |
         cd skia-canvas
-        npm ci --ignore-scripts
+        yarn install --ignore-scripts
         npm run build -- --release --features vulkan,window,skia-safe/embed-freetype
 
     - name: Package module
@@ -98,7 +98,7 @@ jobs:
     - name: Build module
       run: |
         cd skia-canvas
-        npm ci --ignore-scripts
+        yarn install --ignore-scripts
         npm run build -- --release --features vulkan,window,skia-safe/embed-freetype
 
     - name: Package module
@@ -169,7 +169,7 @@ jobs:
     - name: Build module
       run: |
         cd skia-canvas
-        npm ci --ignore-scripts
+        yarn install --ignore-scripts
         npm run build -- --release --features vulkan,window,skia-safe/embed-freetype
 
     - name: Package module
@@ -207,7 +207,7 @@ jobs:
       env:
         MACOSX_DEPLOYMENT_TARGET: 10.13
       run: |
-        npm ci --ignore-scripts
+        yarn install --ignore-scripts
         npm run build -- --release --features metal,window
 
     - name: Package module
@@ -250,7 +250,7 @@ jobs:
       env:
         MACOSX_DEPLOYMENT_TARGET: 11.1
       run: |
-        npm ci --ignore-scripts
+        yarn install --ignore-scripts
         npm run build -- --release --features metal,window --target aarch64-apple-darwin
         sed -i.bak 's/"package_name":.*/"package_name": "{platform}-arm64-{node_napi_label}-{libc}.tar.gz",/' package.json
         npm run package
@@ -282,7 +282,7 @@ jobs:
 
     - name: Build module
       run: |
-        npm ci --ignore-scripts
+        yarn install --ignore-scripts
         npm run build -- --release --features vulkan,window
 
     - name: Package module

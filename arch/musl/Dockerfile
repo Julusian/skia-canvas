@@ -11,7 +11,7 @@ RUN apk update && apk add --update --no-cache \
     bash curl git python3 perl clang llvm g++ build-base \
     musl-dev openssl-dev fontconfig-dev fontconfig ttf-dejavu
 
-RUN apk add --update --no-cache --repository http://dl-cdn.alpinelinux.org/alpine/v3.17/community \
+RUN apk add --update --no-cache --repository http://dl-cdn.alpinelinux.org/alpine/v3.18/community \
     python2
 
 RUN apk add --update --no-cache --repository http://dl-cdn.alpinelinux.org/alpine/edge/testing \

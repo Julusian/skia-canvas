@@ -39,13 +39,13 @@ jobs:
     - name: Build for Metal
       if: ${{ matrix.os == 'macos-latest' }}
       run: |
-        npm ci --ignore-scripts
+        yarn install --ignore-scripts
         npm run build -- --release --features metal,window
 
     - name: Build for Vulkan
       if: ${{ matrix.os != 'macos-latest' }}
       run: |
-        npm ci --ignore-scripts
+        yarn install --ignore-scripts
         npm run build -- --release --features vulkan,window
 
     - name: Run tests
