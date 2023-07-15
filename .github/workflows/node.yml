@@ -151,7 +151,7 @@ jobs:
             if command -v apt-get &> /dev/null
             then
               apt update
-              apt install -y ninja
+              apt install -y ninja-build
             elif command -v apk &> /dev/null
             then
               apk update
