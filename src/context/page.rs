@@ -281,7 +281,7 @@ pub fn pages_arg(cx: &mut FunctionContext, idx: i32, canvas:&BoxedCanvas) -> Neo
 
 fn pdf_document(quality:f32, density:f32) -> Document{
   let mut meta = pdf::Metadata::default();
-  meta.producer = "Skia Canvas <https://github.com/samizdatco/skia-canvas>".to_string();
+  meta.producer = "Skia Canvas <https://github.com/Julusian/skia-canvas>".to_string();
   meta.encoding_quality = Some((quality*100.0) as i32);
   meta.raster_dpi = Some(density * 72.0);
   pdf::new_document(Some(&meta))

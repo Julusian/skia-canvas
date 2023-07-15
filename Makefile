@@ -6,15 +6,15 @@ LIBDIR := $(CURDIR)/lib/v$(NAPI_VERSION)
 LIB := $(LIBDIR)/index.node
 GIT_TAG = $(shell git describe)
 PACKAGE_VERSION = $(shell npm run env | grep npm_package_version | cut -d '=' -f 2)
-NPM_VERSION = $(shell npm view skia-canvas version)
+NPM_VERSION = $(shell yarn info @julusian/skia-canvas version)
 .PHONY: build test visual check clean distclean release run preview
 
 build: $(NPM)
 	@rm -f $(LIB)
-	@npm run build
+	@yarn build
 
 $(NPM):
-	npm install
+	yarn install
 
 $(LIB): build
 

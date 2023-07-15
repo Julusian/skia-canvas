@@ -1,17 +1,17 @@
 {
-  "name": "skia-canvas",
+  "name": "@julusian/skia-canvas",
   "version": "1.0.1",
   "description": "A GPU-accelerated Canvas Graphics API for Node",
   "author": "Christian Swinehart <drafting@samizdat.co>",
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/samizdatco/skia-canvas.git"
+    "url": "git+https://github.com/Julusian/skia-canvas.git"
   },
   "bugs": {
-    "url": "https://github.com/samizdatco/skia-canvas/issues"
+    "url": "https://github.com/Julusian/skia-canvas/issues"
   },
-  "homepage": "https://github.com/samizdatco/skia-canvas#readme",
+  "homepage": "https://github.com/Julusian/skia-canvas#readme",
   "main": "lib",
   "browser": {
     "lib": "./lib/browser.js",
