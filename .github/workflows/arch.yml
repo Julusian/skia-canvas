@@ -26,10 +26,16 @@ jobs:
         username: ${{ github.actor }}
         password: ${{ secrets.GITHUB_TOKEN }}
 
+    - name: set lower case repository
+      run: |
+        echo "REPOSITORY_LC=${REPOSITORY,,}" >>${GITHUB_ENV}
+      env:
+        REPOSITORY: '${{ github.repository }}'
+
     - name: Build and push
       uses: docker/build-push-action@v4
       with:
-        tags: ghcr.io/${{ github.repository }}-${{ matrix.libc }}:latest
+        tags: ghcr.io/${{ env.REPOSITORY_LC }}-${{ matrix.libc }}:latest
         context: arch/${{ matrix.libc }}
         platforms: linux/amd64,linux/arm64
         push: true
