@@ -1,6 +1,6 @@
 {
   "name": "@julusian/skia-canvas",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "A GPU-accelerated Canvas Graphics API for Node",
   "author": "Christian Swinehart <drafting@samizdat.co>",
   "license": "MIT",
@@ -21,7 +21,8 @@
     "install": "node-pre-gyp install",
     "build": "cargo-cp-artifact -nc lib/v6/index.node -- cargo build --message-format=json-render-diagnostics",
     "package": "node-pre-gyp package",
-    "test": "jest"
+    "test": "jest",
+    "prepublish": "rm lib/v6 -R"
   },
   "dependencies": {
     "@mapbox/node-pre-gyp": "^1.0.9",
