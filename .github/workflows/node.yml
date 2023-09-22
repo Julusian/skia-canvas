@@ -42,11 +42,12 @@ jobs:
             is-native: false
             docker-arch: linux/arm64
             docker-image: node:18-buster
-          - os: ubuntu-latest
-            arch: arm
-            is-native: false
-            docker-arch: linux/arm/v7
-            docker-image: node:18-buster
+          # arm7 doesn't work as the translation layer causes git operations and the overall build to fail
+          # - os: ubuntu-latest
+          #   arch: arm
+          #   is-native: false
+          #   docker-arch: linux/arm/v7
+          #   docker-image: node:18-buster
           # # linux-musl
           # - os: ubuntu-latest
           #   arch: x64
