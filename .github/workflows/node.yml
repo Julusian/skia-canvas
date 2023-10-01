@@ -94,14 +94,14 @@ jobs:
         shell: bash
         run: |
           yarn install --ignore-scripts
-          yarn build --release --features "d3d,window"
+          yarn build --release
 
       - name: Build macOS (x64)
         if: runner.os == 'macOS' && matrix.arch == 'x64'
         shell: bash
         run: |
           yarn install --ignore-scripts
-          yarn build --release --features "metal,window"
+          yarn build --release
         env:
           MACOSX_DEPLOYMENT_TARGET: 10.13
 
@@ -113,7 +113,7 @@ jobs:
           echo "SDKROOT=$(xcrun -sdk $SDK --show-sdk-path)" >> $GITHUB_ENV
 
           yarn install --ignore-scripts
-          yarn build --release --features "metal,window" --target aarch64-apple-darwin
+          yarn build --release --target aarch64-apple-darwin
         env:
           MACOSX_DEPLOYMENT_TARGET: 10.13
   
@@ -122,7 +122,7 @@ jobs:
         shell: bash
         run: |
           yarn install --ignore-scripts
-          yarn build --release --features "vulkan,window,skia-safe/embed-freetype"
+          yarn build --release
 
       - name: Run tests
         if: ${{ matrix.is-native }}
@@ -171,7 +171,7 @@ jobs:
             fi
 
             yarn install --ignore-scripts
-            yarn build --release --features "vulkan,window,skia-safe/embed-freetype"
+            yarn build --release
 
             yarn test
 
