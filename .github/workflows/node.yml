@@ -69,25 +69,11 @@ jobs:
         with:
           node-version: 16.x
 
-      - name: Use Rust
-        if: runner.os == 'Windows' || (runner.os == 'macOS' && matrix.arch != 'arm64')
-        uses: actions-rs/toolchain@v1.0.6
-        with:
-          toolchain: stable
-
-      - name: Use Rust (macOS arm64)
+      - name: Setup Rust toolchain (macOS arm64)
         if: runner.os == 'macOS' && matrix.arch == 'arm64'
-        uses: actions-rs/toolchain@v1.0.6
-        with:
-          target: aarch64-apple-darwin
-          toolchain: stable
-
-      - name: Install rust
-        if: runner.os == 'Linux'
         shell: bash
         run: |
-          curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y --profile minimal
-          echo "$HOME/.cargo/bin" >> $GITHUB_PATH
+          rustup target add aarch64-apple-darwin
 
       - name: Build Windows
         if: runner.os == 'Windows' 
