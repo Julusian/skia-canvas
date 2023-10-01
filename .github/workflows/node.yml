@@ -144,7 +144,6 @@ jobs:
           # shell: bash
           options: --platform=${{ matrix.docker-arch }} -v ${{ github.workspace }}:/work -e CI=1 -e npm_config_build_from_source=1 -e NAPI_VERSION -e BINDING_NAME
           run: |
-            set -e
 
             if command -v apt-get &> /dev/null
             then
@@ -167,6 +166,8 @@ jobs:
             if [ "${{ matrix.arch }}" != "x64" ]; then
               export SKIA_BINARIES_URL="https://builds.julusian.dev/skia-canvas/{tag}/skia-binaries-{key}.tar.gz"
             fi
+
+            set -e
 
             yarn install --ignore-scripts
             yarn build --release --features "skia-safe/embed-freetype"
