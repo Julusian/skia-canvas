@@ -25,10 +25,12 @@ jobs:
           - os: windows-latest
             arch: ia32
             is-native: false
+            rust-arch: i686-pc-windows-msvc
           # macos
           - os: macos-11
             arch: arm64
             is-native: false
+            rust-arch: aarch64-apple-darwin
           - os: macos-11
             arch: x64
             is-native: true
@@ -69,18 +71,25 @@ jobs:
         with:
           node-version: 16.x
 
-      - name: Setup Rust toolchain (macOS arm64)
-        if: runner.os == 'macOS' && matrix.arch == 'arm64'
+      - name: Setup Rust toolchain
+        if: matrix.rust-arch
         shell: bash
         run: |
-          rustup target add aarch64-apple-darwin
+          rustup target add ${{ matrix.rust-arch }}
 
-      - name: Build Windows
-        if: runner.os == 'Windows' 
+      - name: Build Windows (x64)
+        if: runner.os == 'Windows' && matrix.arch == 'x64'
         shell: bash
         run: |
           yarn install --ignore-scripts
           yarn build --release
+
+      - name: Build Windows (ia32)
+        if: runner.os == 'Windows' && matrix.arch == 'ia32'
+        shell: bash
+        run: |
+          yarn install --ignore-scripts
+          yarn build --release --target ${{ matrix.rust-arch}}
 
       - name: Build macOS (x64)
         if: runner.os == 'macOS' && matrix.arch == 'x64'
@@ -99,7 +108,7 @@ jobs:
           echo "SDKROOT=$(xcrun -sdk $SDK --show-sdk-path)" >> $GITHUB_ENV
 
           yarn install --ignore-scripts
-          yarn build --release --target aarch64-apple-darwin
+          yarn build --release --target ${{ matrix.rust-arch}}
         env:
           MACOSX_DEPLOYMENT_TARGET: 10.13
   
