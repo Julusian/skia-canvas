@@ -130,7 +130,7 @@ jobs:
         shell: bash
         run: |
           # yarn build --arch=${{ matrix.arch }}
-          yarn package
+          yarn package --target_arch=${{ matrix.arch }}
 
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v2
@@ -170,7 +170,7 @@ jobs:
 
             yarn test
 
-            yarn package
+            yarn package --target_arch=${{ matrix.arch }}
 
       - name: Upload artifacts
         uses: actions/upload-artifact@v3
