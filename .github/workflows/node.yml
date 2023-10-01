@@ -117,7 +117,7 @@ jobs:
         shell: bash
         run: |
           yarn install --ignore-scripts
-          yarn build --release
+          yarn build --release --features "skia-safe/embed-freetype"
 
       - name: Run tests
         if: ${{ matrix.is-native }}
@@ -166,7 +166,7 @@ jobs:
             fi
 
             yarn install --ignore-scripts
-            yarn build --release
+            yarn build --release --features "skia-safe/embed-freetype"
 
             yarn test
 
