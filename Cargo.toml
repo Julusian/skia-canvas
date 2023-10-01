@@ -16,6 +16,7 @@ lto = "fat"
 [features]
 metal = ["skia-safe/metal", "dep:metal", "dep:core-graphics-types", "dep:foreign-types", "dep:cocoa", "dep:objc"]
 vulkan = ["skia-safe/vulkan", "dep:skulpin", "dep:ash"]
+d3d = ["skia-safe/d3d"]
 window = ["dep:winit"]
 
 [dependencies]

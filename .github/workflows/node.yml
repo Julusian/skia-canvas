@@ -94,7 +94,7 @@ jobs:
         shell: bash
         run: |
           yarn install --ignore-scripts
-          yarn build --release --features "vulkan,window"
+          yarn build --release --features "d3d,window"
 
       - name: Build macOS (x64)
         if: runner.os == 'macOS' && matrix.arch == 'x64'
