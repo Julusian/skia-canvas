@@ -143,7 +143,7 @@ jobs:
         with:
           image: ${{ matrix.docker-image }}
           # shell: bash
-          options: --platform=${{ matrix.docker-arch }} -v ${{ github.workspace }}:/work -e CI=1 -e npm_config_build_from_source=1 -e NAPI_VERSION -e BINDING_NAME
+          options: --platform=${{ matrix.docker-arch }} -v ${{ github.workspace }}:/work -e CI=1 -e JEST_TIMEOUT=20000 -e npm_config_build_from_source=1 -e NAPI_VERSION -e BINDING_NAME
           run: |
 
             if command -v apt-get &> /dev/null
